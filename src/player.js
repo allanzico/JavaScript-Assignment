@@ -1,17 +1,6 @@
 import Phaser from "phaser";
-
-let platforms;
-let player;
-
-export default class GameScene extends Phaser.Scene {
+export default class Player extends Phaser.GameObjects.Sprite {
   constructor() {
-    super("Game");
-  }
-  preload() {
-    this.load.image("sky", "src/assets/sky.png");
-    this.load.image("ground", "src/assets/platform.png");
-    this.load.image("star", "src/assets/star.png");
-    this.load.image("bomb", "src/assets/bomb.png");
     this.load.spritesheet("dude", "src/assets/dude.png", {
       frameWidth: 32,
       frameHeight: 48
@@ -19,20 +8,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(400, 300, "sky");
-
-    //Create Static body not affected by gravity
-    platforms = this.physics.add.staticGroup();
-    platforms
-      .create(400, 568, "ground")
-      .setScale(2)
-      .refreshBody();
-    platforms.create(600, 400, "ground");
-    platforms.create(50, 250, "ground");
-    platforms.create(750, 220, "ground");
-
-    //Add player
-
     player = this.physics.add.sprite(100, 450, "dude");
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -58,6 +33,5 @@ export default class GameScene extends Phaser.Scene {
     });
     this.physics.add.collider(player, platforms);
   }
-
-  update() {}
+  }
 }

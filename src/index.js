@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import config from "./config";
-import scene from "./scene";
 import GameScene from "./scene";
 
 class Game extends Phaser.Game {
