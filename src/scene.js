@@ -7,10 +7,12 @@ let stars;
 let score = 0;
 let scoreText;
 let gameOver = false;
+let enemy;
 let enemies = [];
-let enemiesToSpawn = 10;
+let enemiesToSpawn = 6;
 let enemiesLeft = enemiesLeft;
 let bombs;
+let baddieMoveTween;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -25,7 +27,7 @@ export default class GameScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 48
     });
-    this.load.spritesheet("dude", "src/assets/dude.png", {
+    this.load.spritesheet("baddie", "src/assets/baddie.png", {
       frameWidth: 32,
       frameHeight: 32
     });
@@ -79,7 +81,7 @@ export default class GameScene extends Phaser.Scene {
     //Add Stars
     stars = this.physics.add.group({
       key: "star",
-      repeat: 11,
+      repeat: 1,
       setXY: { x: 12, y: 0, stepX: 70 }
     });
 
@@ -96,9 +98,14 @@ export default class GameScene extends Phaser.Scene {
       repeat: enemiesToSpawn
     });
 
+    enemies.children.iterate(function(enemy) {
+      enemy.setBounceY(Phaser.Math.FloatBetween(0.2, 0.4));
+    });
+
     //Make objects collide with platform and stay static
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(enemies, platforms);
     this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
     this.physics.add.overlap(player, stars, collectStar, null, this);
